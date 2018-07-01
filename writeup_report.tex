@@ -13,22 +13,21 @@
 
 \begin{document}
 
-\title{Project Title}
+\title{Where Am I}
 
-\author{Author Name}
+\author{Seyfi Gozubuyuk}
 
 \markboth{Localization project, Robotics Nanodegree Program, Udacity}%
 {}
 \IEEEtitleabstractindextext{%
 
 \begin{abstract}
-An abstract is meant to be a summary of all of the relevant points in your presented work. It is designed to present a high-level overview of the report, providing just enough detail to convey the necessary information The abstract may often mention a one-sentence summary of the results.  While the type of voice chosen for the paper (active or passive) may be up for debate, you should avoid the use of "I" and "me" in the report. It usually is kept to a length of 150 - 200 words.
-Example: You should not write, "I built two different robot models for performance evaluation". Instead, you should try to say, "Two different robot models are considered for performance evaluation".
+In this project, the aim is to utilize ROS packages to accurately localize a mobile robot inside a provided map inside a provided map in the Gazebo and RViz simulation environments. The overview of the tasks can are as follows, building two mobile robots for simulated tasks, creating a ROS package that utilizes AMCL package, exploring specific parameters.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
 \begin{IEEEkeywords}
-Robot, IEEEtran, Udacity, \LaTeX, Localization.
+Robot, IEEEtran, Udacity, \LaTeX, Localization, ROS, AMCL, Robot Model.
 \end{IEEEkeywords}}
 
 
@@ -38,9 +37,7 @@ Robot, IEEEtran, Udacity, \LaTeX, Localization.
 \section{Introduction}
 \label{sec:introduction}
 
-\IEEEPARstart{T}{he} introduction should provide some material regarding the history of the problem, why it is important and what is intended to be achieved. If there exists any previous attempts to solve this problem, this is a great place to note these while conveying the differences in your approach (if any). The intent is to provide enough information for the reader to understand why this problem is interesting and setting up the conversation for the solution you have provided
-Use this space to introduce your localization task and how you wish to accomplish it; save the details about the robot construction for later (simulation is a good point for this information).
-If you have any papers / sites / repositories you have referenced for your robot, please make sure to cite them.
+\IEEEPARstart{T}{he} problem is to localize the robot in a known map environment. It is critical to know the exact location of the robot, to create a path from the starting point to the goal. It is also crucial to localize the robot to prevent any collision with obstacles.
 
 %example for inserting image
 \begin{figure}[thpb]
@@ -74,12 +71,12 @@ Three & Four\\
 
 
 \section{Background}
-At this stage, you should begin diving into the technical details of your approach by explaining to the reader what are the characteristics of the filters, what localization method was chosen, and the reason that it was selected (i.e. particle filters).
-This should be factual and authoritative, meaning you should not use language such as "I think this will work" or "Maybe Monte Carlo Localization with these parameters is better...". Instead, focus on items similar to, "Adaptive Monte Carlo Localization was chosen because..."
-Provide a sufficient background into the scope of the problem technologically while also identifying some of the current challenges in robot localization and why the problem domain is an important piece of robotics.\cite{lamport1994latex}
+The problem is to localize the robot, as mentioned earlier. The map is known; however, the sensors are not precise. There is noise to affect the measurements coming from the sensors, and the controls are not perfect to move the vehicle to the desired location. Therefore, we need to apply some techniques to use noise measurements.\cite{lamport1994latex}
 
 \subsection{Kalman Filters}
-Briefly describe Kalman filters. Explain how they work and why they are used for localization. Additionally, discuss the drawbacks of linear Kalman filters and how Extended Kalman Filters (EKFs) help resolve some of these issues.
+Kalman Filters use noisy measurements and the actuation commands to estimate the location of the robot. There are two steps in Kalman Filters. They are predict and update. Predict step forecast the position after actuation command is applied, whereas the update step uses the measurements to update the location.
+Kalman filters need to have Gaussian distributions to work. Therefore only linear operations are allowed on the probability.
+Briefly describe Kalman filters. Explain how they work and why they are used for localization. Additionally, discuss the drawbacks of linear Kalman filters and how Extended Kalman Filters (EKFs) help resolve some of these issues.\cite{wikipediaKF}
 
 \subsection{Particle Filters}
 Briefly explain what a particle filter is, how it is used, and why it is useful.
