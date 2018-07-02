@@ -39,36 +39,6 @@ Robot, IEEEtran, Udacity, \LaTeX, Localization, ROS, AMCL, Robot Model.
 
 \IEEEPARstart{T}{he} problem is to localize the robot in a known map environment. It is critical to know the exact location of the robot, to create a path from the starting point to the goal. It is also crucial to localize the robot to prevent any collision with obstacles.
 
-%example for inserting image
-\begin{figure}[thpb]
-      \centering
-      \includegraphics[width=\linewidth]{RobotRevolution5}
-      \caption{Robot Revolution.}
-      \label{fig:robot1}
-\end{figure}
-
-\subsection{Subsection Heading Here}
-Subsection text here.
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
-
-%example for building table
-\begin{table}[h]
-\caption{Table}
-\label{table_example}
-\begin{center}
-\begin{tabular}{|c||c|}
-\hline
-One & Two\\
-\hline
-Three & Four\\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-
-
 
 \section{Background}
 The problem is to localize the robot, as mentioned earlier. The map is known; however, the sensors are not precise. There is noise to affect the measurements coming from the sensors, and the controls are not perfect to move the vehicle to the desired location. Therefore, we need to apply some techniques to use noise measurements.\cite{lamport1994latex}
@@ -76,7 +46,7 @@ The problem is to localize the robot, as mentioned earlier. The map is known; ho
 \subsection{Kalman Filters}
 Kalman Filters use noisy measurements and the actuation commands to estimate the location of the robot. There are two steps in Kalman Filters. They are predict and update. Predict step forecast the position after actuation command is applied, whereas the update step uses the measurements to update the location.
 Kalman filters need to have Gaussian distributions to work. Therefore only linear operations are allowed on the probability. \\
-Since the robot model is not entirely linear, there is a need for transforming nonlinear equations to linear equations. Taylor Series is the method for linear approximation. With linearization, the Kalman Filter become Extended Kalman Filter. \cite{wikipediaKF}
+Since the robot model is not entirely linear, there is a need for transforming nonlinear equations to linear equations. Taylor Series is the method for linear approximation. With linearization, the Kalman Filter become Extended Kalman Filter. \cite{wiki:kf}
 
 \subsection{Particle Filters}
 Particle Filter, also known as Monte Carlo Localization, starts with randomly generating particles. Each particle represents a possible location for the robot. The steps are similar to the Kalman Filter. After the motion, the position of each particle updates, and the uncertainty increases. After the measurements come from the sensors, the algorithm performs another update and the uncertainty decreases.
@@ -85,39 +55,80 @@ Particle Filter, also known as Monte Carlo Localization, starts with randomly ge
 Particle Filter can work with any distribution whereas Kalman Filter only works with a Gaussian distribution. Particle Filter takes raw measurements; however, Kalman Filter requires landmarks. The posterior is particles for Particle Filter and Gaussian for Kalman Filter. Kalman Filter is more efficient and provides more resolution; on the other hand Particle Filter is easier to implement and more robust. Only Particle Filter has Memory and Resolution control and can provide a solution for Glocal Localization. Particle Filter has Multimodal Discrete state space, and Kalman Filter has unimodal continuous.
 
 \section{Simulations}
-The simulation environment consists of ROS (Kinetic), Gazebo and RViz. The ROS packages are AMCL, move base, and map server. There are two different robot models to test on the simulation.
+The simulation environment consists of ROS (Kinetic), Gazebo and RViz. The ROS packages are AMCL, move base, map server, and navigation. There are two different robot models to test on the simulation.
 
-\subsection{UdacityBot}
-The Udacity Bot has the robot model that described in the lesson. The robot has a chassis, two casters, two wheels, a laser sensor and a camera. Figure ~\ref{fig:robot1} shows the robot in RViz.
+\subsection{The Udacity Bot}
+The Udacity Bot has the robot model that described in the lesson. The robot has a chassis, two casters, two wheels, a laser sensor and a camera. Figure~\ref{fig:ubotgaz} and Figure~\ref{fig:ubotrvz} shows the Udacity bot in Gazebo and RViz.
 
 \begin{figure}[thpb]
       \centering
-      \includegraphics[width=\linewidth]{RobotRevolution5}
-      \caption{Robot Revolution.}
-      \label{fig:robot1}
+      \includegraphics[width=\linewidth]{figures/UdacityBotGazebo.png}
+      \caption{Udacity Bot in Gazebo}
+      \label{fig:ubotgaz}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/UdacityBotRViz.png}
+      \caption{Udacity Bot in RViz}
+      \label{fig:ubotrvz}
+\end{figure}
+
+\subsection{The xbot}
+The xbot is the slightly modified version of the Udacity Bot. It has a sensor base link which is in a rectangular box shape. This link is connected to the chassis and the laser sensor and the camera. Figure~\ref{fig:xbotgaz} and Figure~\ref{fig:xbotrvz} shows the xbot in Gazebo and RViz.
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotGazebo.png}
+      \caption{xbot in Gazebo}
+      \label{fig:xbotgaz}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotRViz.png}
+      \caption{xbot in RViz}
+      \label{fig:xbotrvz}
 \end{figure}
 
 
 \subsection{Achievements}
-Figure ~\ref{fig:robot1} shows
-
-%example for inserting image
-\begin{figure}[thpb]
-      \centering
-      \includegraphics[width=\linewidth]{RobotRevolution5}
-      \caption{Robot Revolution.}
-      \label{fig:robot1}
-\end{figure}
-
-
-You should describe what you achieved for localization in the project with the benchmark model and your own model. Includes charts and graphs show how parameters affect your performance.
+The Udacity bot and the xbot were able to reach the goal location. However, they first went in the opposite direction to find a way to goal. After recognizing there was no way to goal, they turned back and the reach to the target.
 
 % Robot Models
 \subsection{Benchmark Model}
 \subsubsection{Model design}
-The Robot's design considerations should include: the size of the robot, the layout of sensors. This information can be shown in the form of a chart / table.
+The main part of the Udacity bot is the chassis. It has a box shape with dimensions 0.4 x 0.2 x 0.1. It has two casters, one at -0.15 0 -0.05 and the other at 0.15 0 -0.05. There are two wheels connected to the chassis at 0 -0.15 0 and 0 +0.15 0. //
+The laser sensor located at position relative to the chassis 0.15 0 0.085. It has a cubic shape with length 0.1. The camera sensor is connected to the chassis at 0.2 0 0, and it has a cubic shape with lenght 0.05.
 
 \subsubsection{Packages Used}
+The packages used are as follows:
+\begin{itemize}
+\item ros-kinetic-navigation
+\item ros-kinetic-map-server
+\item ros-kinetic-move-base
+\item ros-kinetic-amcl
+\end{itemize}
+
+Figure~\ref{fig:ubotgrp} and Figure~\ref{fig:xbotgrp} shows the topics for the Udacity Bot and the xbot.
+
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/rosgraph_ubot.png}
+      \caption{Udacity Bot Rosgraph}
+      \label{fig:ubotgrp}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/rosgraph_xbot.png}
+      \caption{xbot Rosgraph}
+      \label{fig:xbotgrp}
+\end{figure}
+
+
+
 The packages used in the project should be specified as well as the topics received and published; the services it used and provided should also be addressed.
 
 \subsubsection{Parameters}
