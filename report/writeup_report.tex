@@ -37,7 +37,8 @@ Robot, IEEEtran, Udacity, \LaTeX, Localization, ROS, AMCL, Robot Model.
 \section{Introduction}
 \label{sec:introduction}
 
-\IEEEPARstart{T}{he} problem is to localize the robot in a known map environment. It is critical to know the exact location of the robot, to create a path from the starting point to the goal. It is also crucial to localize the robot to prevent any collision with obstacles.
+\IEEEPARstart{T}{he} problem is to localize the robot in a known map environment. It is critical to know the exact location of the robot, to create a path from the starting point to the goal. It is also crucial to localize the robot to prevent any collision with obstacles.\\
+Noise from the sensors and the actuators makes it harder to estimate the robot position. There is a need for the location algorithms, to decrease the uncertainty caused by the noise. The most common algorithms are Kalman Filter and Monte Carlo Localization (Particle Filter). This project test the Adaptive Monte Carlo Localization with two different robot models. The Udacity Bot and the xbot. The project includes building the robot models and tuning the parameters. The environment contains Gazebo and RViz on ROS Kinetic. The ROS packages required to run this project are AMCL, move base, map server and navigation.
 
 
 \section{Background}
@@ -400,18 +401,48 @@ The convergence time for both of the robots were quite similar. Which shows that
 \begin{itemize}
 \item xbot performed better. It took less time to reach the goal position.
 \item The different costmap parameters let xbot to perform better. The xbot directly started following the global path.
-\item The 'Kidnapped Robot' problem is randomly moving the robot to another location. It is challenge to recover from.\cite{wiki:krp}
+\item The 'Kidnapped Robot' problem is randomly moving the robot to another location. It is a challenge to recover from \cite{wiki:krp}. The current version of the xbot failed to recover from changing its location on Gazebo. The changed position of the xbot is in the Figure~\ref{fig:xbotkidloc}. Figure~\ref{fig:xbotkid1} and Figure~\ref{fig:xbotkid2} show the situation nearly one minute later; and Figure~\ref{fig:xbotkidfail} shows when the AMCL was aborted due to the failure of generating a plan.
 \item Localization can be performed in scenarios in which the map is known, and the location of the robot does not randomly change.
-\item MCL/AMCL can be used in industry domains where the map is known.
-
+\item MCL/AMCL algorithms are a proper choice in industry domains where the map is known and small. The larger the map, the higher the number of particles; which will result in increased computational costs. They work better in closed environments, such as warehouses and stores. The reason for that is to have obstacles, columns, and barriers. The laser sensor will get the distances from them providing more information to localization.
 \end {itemize}
 
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotKidnapLocation.png}
+      \caption{xbot - Kidnapped Location}
+      \label{fig:xbotloc}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotKidnap1.png}
+      \caption{xbot - Kidnapped 1}
+      \label{fig:xbotkid1}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotKidnap2.png}
+      \caption{xbot - Kidnapped 2}
+      \label{fig:xbotkid2}
+\end{figure}
+
+\begin{figure}[thpb]
+      \centering
+      \includegraphics[width=\linewidth]{figures/xbotKidnapFail.png}
+      \caption{xbot - Kidnapped Failure}
+      \label{fig:xbotkidfail}
+\end{figure}
+
 \section{Conclusion / Future work}
-It is required to tune the parameters for the Udacity Bot to make it reach the goal position without going the opposite direction first. Another task to work on is kidnapped robot problem. When a robot moved to a random location on Gazebo, it should still be able to reach the target.
+It is required to tune the parameters for the Udacity Bot to make it reach the goal position without going the opposite direction first. Another task to work on is kidnapped robot problem. When a robot moved to a random location on Gazebo, it should still be able to reach the target.\\
+Testing the algorithm on the Jetson TX2 and comparing the results with the current results is a waiting task for the future work. Upon receiving successful results, the algorithms in the project can be used on a real robot such a vacuum cleaner or an autonomous forklift.
 
 
 \subsection{Hardware Deployment}
-The project was deployed on the simulation environment. The machine has a I7 CPU, 8GB RAM, and 650M GPU. The configuration was able to run the project, but it needed to decrease the update\textunderscore frequency and publish\textunderscore frequency. In addition, there were limitations on the resolution of the costmaps.
+The project was deployed in the simulation environment. The machine has an I7 CPU, 8GB RAM, and 650M GPU. The configuration was able to run the project, but it needed to decrease the update\textunderscore frequency and publish\textunderscore frequency. In addition, there were limitations on the resolution of the costmaps. With more powerful CPU and GPU, it will be possible to increase the update and publish frequencies and the resolutions. Increasing the resolution helped xbot to perform better compared to the Udacity Bot. \\
+More powerful hardware will enable to test on different and bigger maps. Using a Jetson TX2 would increase the performance of this project.
 
 
 \bibliography{bib}
